@@ -1,0 +1,14 @@
+C:\Users\isaduvan\Source\Repos\MerhabaAzure\DataAccess\bin\Release\netcoreapp3.1\DataAccess.deps.json
+C:\Users\isaduvan\Source\Repos\MerhabaAzure\DataAccess\bin\Release\netcoreapp3.1\DataAccess.dll
+C:\Users\isaduvan\Source\Repos\MerhabaAzure\DataAccess\bin\Release\netcoreapp3.1\DataAccess.pdb
+C:\Users\isaduvan\Source\Repos\MerhabaAzure\DataAccess\bin\Release\netcoreapp3.1\Core.dll
+C:\Users\isaduvan\Source\Repos\MerhabaAzure\DataAccess\bin\Release\netcoreapp3.1\Entities.dll
+C:\Users\isaduvan\Source\Repos\MerhabaAzure\DataAccess\bin\Release\netcoreapp3.1\Entities.pdb
+C:\Users\isaduvan\Source\Repos\MerhabaAzure\DataAccess\bin\Release\netcoreapp3.1\Core.pdb
+C:\Users\isaduvan\Source\Repos\MerhabaAzure\DataAccess\obj\Release\netcoreapp3.1\DataAccess.csprojAssemblyReference.cache
+C:\Users\isaduvan\Source\Repos\MerhabaAzure\DataAccess\obj\Release\netcoreapp3.1\DataAccess.csproj.CoreCompileInputs.cache
+C:\Users\isaduvan\Source\Repos\MerhabaAzure\DataAccess\obj\Release\netcoreapp3.1\DataAccess.AssemblyInfoInputs.cache
+C:\Users\isaduvan\Source\Repos\MerhabaAzure\DataAccess\obj\Release\netcoreapp3.1\DataAccess.AssemblyInfo.cs
+C:\Users\isaduvan\Source\Repos\MerhabaAzure\DataAccess\obj\Release\netcoreapp3.1\DataAccess.csproj.CopyComplete
+C:\Users\isaduvan\Source\Repos\MerhabaAzure\DataAccess\obj\Release\netcoreapp3.1\DataAccess.dll
+C:\Users\isaduvan\Source\Repos\MerhabaAzure\DataAccess\obj\Release\netcoreapp3.1\DataAccess.pdb
