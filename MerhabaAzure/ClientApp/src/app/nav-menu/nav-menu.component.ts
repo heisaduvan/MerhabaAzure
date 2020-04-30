@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthenticationService } from "src/app/service/authentication.service";
 
 @Component({
   selector: 'app-nav-menu',
@@ -8,6 +10,21 @@ import { Component } from '@angular/core';
 export class NavMenuComponent {
   isExpanded = false;
 
+  constructor(private authenticationService: AuthenticationService, private router: Router) {
+   
+  }
+
+  get getCurrentUserName() {
+    return this.authenticationService.getCurrentUserName();
+  }
+  get isAuthenticated(){
+    return this.authenticationService.loggedIn();
+  }
+  LogOut() {
+    this.authenticationService.logout();
+    this.router.navigate(["/login"]);
+  }
+ 
   collapse() {
     this.isExpanded = false;
   }

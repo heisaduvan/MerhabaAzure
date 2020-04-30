@@ -17,7 +17,8 @@ namespace DataAccess.Concrete.EntityFramework.Context
         public DbSet<AppUser> AppUser { get; set; }
         public DbSet<Message> Message { get; set; }
 
-        public DbSet<OperationClaim> OperationClaims { get; set; }
-        public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
+        public DbSet<User> User { get; set; }
+        public DbSet<OperationClaim> OperationClaim { get; set; }
+        public DbSet<UserOperationClaim> UserOperationClaim { get; set; }
     }
 }

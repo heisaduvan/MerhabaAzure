@@ -48,7 +48,10 @@ namespace MerhabaAzure
             });
             services.AddScoped<IAppUserService, AppUserManager>();
             services.AddScoped<IAppUserDal, EfAppUserDal>();
-
+            services.AddScoped<IAuthService, AuthManager>();
+            services.AddScoped<ITokenHelper, JwtHelper>();
+            services.AddScoped<IUserDal, EfUserDal>();
+            services.AddScoped<IUserService, UserManager>();
             var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -59,12 +62,17 @@ namespace MerhabaAzure
                         ValidateIssuer = true,
                         ValidateAudience = true,
                         ValidateLifetime = true,
-                        ValidIssuer = tokenOptions.Issuer,
+                        ValidIssuer = tokenOptions.Issuer, 
                         ValidAudience = tokenOptions.Audience,
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
                     };
                 });
+            services.ConfigureApplicationCookie(options =>
+            {
+
+                options.SlidingExpiration = true;
+            });
 
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
