@@ -1,1 +1,90 @@
-<p>chat works!</p>
+<div class="alert alert-info" role="alert">
+  <h4 class="alert-heading">Welcome! This is a chat application!</h4>
+  <p>
+    This application created by ASP.NET Core and Angular 9. It using SignalR to
+    communication. You want to see
+    <a href="https://github.com/isaduvan/HelloAzure" target="_blank">code.</a>
+  </p>
+  <hr />
+  <p class="mb-0">
+    You can type a message to chat room. You can type " Is there anyone there?"
+  </p>
+</div>
+<div class="container">
+
+  <div class="row">
+    <div class="col-md-3">
+      <h4 class="online-users-title">Online Users</h4>
+      <div class="chatContent">
+        <div *ngFor="let user of OnlineUsers">
+          <p class="online-user-name">{{user.username}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <!-- BEGIN : chatHeader -->
+      <div class="chatHeader">
+        <!-- <a href="#" class="BackBtn"
+        ><i class="fa fa-angle-left" aria-hidden="true"></i
+      ></a> -->
+        <div class="headerTitle">
+          <!-- <div class="NameIcon">SA</div> -->
+          <div class="Txt">
+            <div>You have to join us!</div>
+            <div>How are you feeling today ?</div>
+          </div>
+        </div>
+      </div>
+      <!-- END : chatHeader -->
+      <!-- BEGIN : chatContent -->
+      <div class="chatContent">
+        <div *ngFor="let message of MessagesArray">
+          <div *ngIf="message">
+            <div *ngIf="message.MessageReceive">
+              <div class="chat-column receive-message">
+                <div class="item">
+                  <div class="chat-icon"></div>
+                </div>
+                <div class="item">
+                  <div class="chat-message">
+                    <strong>{{message.UserName}}:</strong> {{ message.MessageContent }}
+                  </div>
+                  <div class="message-date">{{ message.SendDate | date: "short" }}</div>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="!message.MessageReceive">
+              <div class="chat-column sent-message">
+                <div class="item">
+                  <div class="chat-icon"></div>
+                </div>
+                <div class="item">
+                  <div class="chat-message">
+                    {{ message.MessageContent }}
+                  </div>
+                  <div class="message-date">{{ message.SendDate | date: "short" }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END : chatContent -->
+      <!-- BEGIN : chatSend -->
+      <div class="chatSend">
+        <input type="text"
+               class="sendText"
+               placeholder="Bir Mesaj Gönder..."
+               [value]="txtMessage"
+               (input)="txtMessage = $event.target.value"
+               (keydown.enter)="sendMessage()" />
+
+        <button id="send-message" (click)="sendMessage()">
+          <i class="fas fa-paper-plane" aria-hidden="true"></i>
+        </button>
+      </div>
+      <!-- END : chatSend -->
+    </div>
+  </div>
+  
+</div>

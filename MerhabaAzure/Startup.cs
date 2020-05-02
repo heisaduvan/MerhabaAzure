@@ -20,6 +20,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using System.Threading.Tasks;
 
 namespace MerhabaAzure
 {
@@ -41,7 +42,10 @@ namespace MerhabaAzure
                 options.AddPolicy("AllowOrigin",
                     builder => builder.WithOrigins("http://localhost:44300"));
             });
-            services.AddSignalR();
+            services.AddSignalR().AddJsonProtocol(options => {
+
+                options.PayloadSerializerOptions.PropertyNamingPolicy = null;
+            });
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
@@ -90,7 +94,7 @@ namespace MerhabaAzure
             }
             app.ConfigureCustomExceptionMiddleware();
 
-            app.UseCors(builder => builder.WithOrigins("http://localhost:44300").AllowAnyHeader());
+           app.UseCors(builder => builder.WithOrigins("http://localhost:44300").AllowAnyHeader());
             app.UseStaticFiles();
             app.UseHttpsRedirection();
 

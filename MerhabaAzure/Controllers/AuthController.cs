@@ -45,7 +45,7 @@ namespace MerhabaAzure.Controllers
         {
             var userExists = _authService.UserExists(userForRegisterDto.Email);
             if(!userExists.Success)
-            {
+            {   
                 return BadRequest(userExists.Message);
             }
 

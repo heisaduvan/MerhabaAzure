@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { AuthenticationService } from "src/app/service/authentication.service";
+import { AuthenticationService } from "src/app/_service/authentication.service";
 import { Router } from "@angular/router";
 @Component({
   selector: "app-counter-component",
@@ -14,11 +14,5 @@ export class CounterComponent {
     private router: Router,
     private authenticationService: AuthenticationService
   ) {
-    if (!this.authenticationService.currentUserValue) {
-      this.router.navigate(["/login"]);
-    }
-    console.log(this.authenticationService.currentUserValue);
-    console.log(this.authenticationService.currentUser);
-    console.log(this.authenticationService.currentUserDecode);
   }
 }

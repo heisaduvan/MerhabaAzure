@@ -2,7 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { first } from "rxjs/operators";
-import { AuthenticationService } from "../service/authentication.service";
+import { AuthenticationService } from "../_service/authentication.service";
+import { AlertifyService } from "../_service/alertify.service";
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
@@ -19,7 +20,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private alertifyService: AlertifyService
   ) {
     //redirect to home if already logged in
     if (this.authenticationService.currentUserValue) {
@@ -57,10 +59,14 @@ export class LoginComponent implements OnInit {
         (data) => {
           this.router.navigate([this.returnUrl]);
           this.user = data;
+          this.alertifyService.success(
+            "Welcome " + this.authenticationService.getCurrentUserName() + " !"
+          );
         },
         (error) => {
           this.error = error;
           this.loading = false;
+          this.alertifyService.error("Something went wrong!");
         }
       );
   }
