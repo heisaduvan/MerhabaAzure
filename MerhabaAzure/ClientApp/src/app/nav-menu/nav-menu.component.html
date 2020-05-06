@@ -1,80 +1,98 @@
-<header>
-  <nav
-    class="navbar navbar-light navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3"
-    style="background-color: #e3f2fd;"
+<ul
+  class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+  id="accordionSidebar"
+>
+  <!-- Sidebar - Brand -->
+  <a
+    class="sidebar-brand d-flex align-items-center justify-content-center"
+    href="index.html"
   >
-    <div class="container">
-      <a class="navbar-brand" [routerLink]="['/']">MerhabaAzure</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target=".navbar-collapse"
-        aria-label="Toggle navigation"
-        [attr.aria-expanded]="isExpanded"
-        (click)="toggle()"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div
-        class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse"
-        [ngClass]="{ show: isExpanded }"
-      >
-        <ul class="navbar-nav flex-grow">
-          <li
-            class="nav-item"
-            [routerLinkActive]="['link-active']"
-            [routerLinkActiveOptions]="{ exact: true }"
-          >
-            <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
-          </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/counter']"
-              >Counter</a
-            >
-          </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/fetch-data']"
-              >Fetch data</a
-            >
-          </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/chat']">Chat</a>
-          </li>
-          <li
-            *ngIf="!isAuthenticated"
-            class="nav-item"
-            [routerLinkActive]="['link-active']"
-          >
-            <a class="nav-link text-dark" [routerLink]="['/login']">Login</a>
-          </li>
-          <li
-            *ngIf="!isAuthenticated"
-            class="nav-item"
-            [routerLinkActive]="['link-active']"
-          >
-            <a class="nav-link text-dark" [routerLink]="['/register']"
-              >Sign Up</a
-            >
-          </li>
-          <li
-            *ngIf="isAuthenticated"
-            class="nav-item"
-            [routerLinkActive]="['link-active']"
-          >
-            <button
-              id="logout-button"
-              class="btn btn-outline-danger my-2 my-sm-0"
-              type="button"
-              (click)="LogOut()"
-            >
-              <span>
-                {{ getCurrentUserName }}
-              </span>
-            </button>
-          </li>
-        </ul>
-      </div>
+    <div class="sidebar-brand-icon rotate-n-15">
+      <i class="fas fa-laugh-wink"></i>
     </div>
-  </nav>
-</header>
+    <div class="sidebar-brand-text mx-3">Smart Chat <sup>2</sup></div>
+  </a>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider my-0" />
+
+  <!-- Nav Item - Dashboard -->
+  <li
+    class="nav-item active"
+    [routerLinkActive]="['link-active']"
+    [routerLinkActiveOptions]="{ exact: true }"
+  >
+    <a class="nav-link" [routerLink]="['/']">
+      <i class="fas fa-fw fa-home"></i>
+      <span>Home</span>
+    </a>
+  </li>
+  <li
+    class="nav-item active"
+    [routerLinkActive]="['link-active']"
+    *ngIf="isAuthenticated"
+  >
+    <a class="nav-link" [routerLink]="['/chat']">
+      <i class="fas fa-fw fa-user-friends"></i>
+      <span>Chat</span>
+    </a>
+  </li>
+  <li
+    class="nav-item active"
+    [routerLinkActive]="['link-active']"
+    *ngIf="isAuthenticated"
+  >
+    <a class="nav-link" [routerLink]="['/counter']">
+      <i class="fas fa-fw fa-sort-numeric-down"></i>
+      <span>Counter</span>
+    </a>
+  </li>
+  <li
+    class="nav-item active"
+    [routerLinkActive]="['link-active']"
+    *ngIf="isAuthenticated"
+  >
+    <a class="nav-link" [routerLink]="['/fetch-data']">
+      <i class="fas fa-fw fa-cloud-moon-rain"></i>
+      <span>Weather Forecast</span>
+    </a>
+  </li>
+  <li
+    class="nav-item active"
+    [routerLinkActive]="['link-active']"
+    *ngIf="!isAuthenticated"
+  >
+    <a class="nav-link" [routerLink]="['/login']">
+      <i class="fas fa-fw fa-sign-in-alt"></i>
+      <span>Login</span>
+    </a>
+  </li>
+  <li
+    class="nav-item active"
+    [routerLinkActive]="['link-active']"
+    *ngIf="!isAuthenticated"
+  >
+    <a class="nav-link" [routerLink]="['/register']">
+      <i class="fas fa-fw fa-user-plus"></i>
+      <span>Sign up</span>
+    </a>
+  </li>
+  <li
+    class="nav-item active"
+    [routerLinkActive]="['link-active']"
+    *ngIf="isAuthenticated"
+  >
+    <a class="nav-link" [routerLink]="['/home']" (click)="LogOut()">
+      <i class="fas fa-fw fa-sign-out-alt"></i>
+      <span>Log Out</span>
+    </a>
+  </li>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider" />
+  <!-- Sidebar Toggler (Sidebar) -->
+  <div class="text-center d-none d-md-inline">
+    <button class="rounded-circle border-0" id="sidebarToggle"></button>
+  </div>
+</ul>
+<!-- End of Sidebar -->

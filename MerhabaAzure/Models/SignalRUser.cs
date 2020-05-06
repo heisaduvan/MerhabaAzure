@@ -9,6 +9,8 @@ namespace MerhabaAzure.Models
     {
         public string username { get; set; }
         public string email { get; set; }
+        public string hubConnectionId { get; set; }
+        public int userId { get; set; }
 
 
     }

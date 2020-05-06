@@ -10,18 +10,13 @@ export class ChatService {
   messageReceived = new EventEmitter<Message>();
   connectionEstablished = new EventEmitter<Boolean>();
   oldMessagesArray = new EventEmitter<Message>();
+  oldMessagesArrayForClient = new EventEmitter<Message>();
+
   OnlineUsers = new EventEmitter<User>();
 
-  private connectionIsEstablished = false;
   private _hubConnection: HubConnection;
-  private baseUrl: string;
-  private connectionId: any;
 
-  constructor(
-    @Inject("BASE_URL") baseUrl: string,
-    private authenticationService: AuthenticationService
-  ) {
-    this.baseUrl = baseUrl;
+  constructor(private authenticationService: AuthenticationService) {
     this.createConnection();
     this.registerOnServerEvents();
     this.startConnection();
@@ -35,46 +30,62 @@ export class ChatService {
     this._hubConnection
       .start()
       .then(() => {
-        this.connectionIsEstablished = true;
         console.log("Hub connection started");
         this.connectionEstablished.emit(true);
         this.getAllMessage();
         this.OnlineUser();
-
       })
       .catch((err) => {
         console.log("Error while establishing connection, retrying...");
         setTimeout(function () {
-          this.startConnection(); 
+          this.startConnection();
         }, 5000);
       });
   }
   private registerOnServerEvents(): void {
-    this._hubConnection.on("MessageReceived", (data: any) => {
-      this.messageReceived.emit(data);
-    });
-    this._hubConnection.on("GetAllMessage", (data: any) => {
-      this.oldMessagesArray.emit(data);
-    });
     this._hubConnection.on("NewOnlineUser", (data: any) => {
       this.OnlineUsers.emit(data);
     });
+    this._hubConnection.on("MessageReceived", (data: any) => {
+      this.messageReceived.emit(data);
+    });
+    this._hubConnection.on("GetAllMessages", (data: any) => {
+      this.oldMessagesArray.emit(data);
+    });
+    // this._hubConnection.on("GetAllMessagesForClient", (data: any) => {
+    //   this.oldMessagesArrayForClient.emit(data);
+    // });
   }
-  public closeConnection(): void {
-    var user = { username: this.authenticationService.getCurrentUserName(), email: this.authenticationService.getCurrentUserEmail() }
-    debugger;
+  public closeConnection(_username: string, _email: string): void {
+    var user = { username: _username, email: _email };
     this._hubConnection.invoke("OnDisconnected", user);
     this._hubConnection.stop();
   }
   getAllMessage() {
-    this._hubConnection.invoke("GetAllMessage");
+    this._hubConnection.invoke("GetAllMessages");
+  }
+  getAllMessageForClient(senderId: number, clientEmail: string) {
+    this._hubConnection.invoke(
+      "GetAllMessagesForClient",
+      senderId,
+      clientEmail
+    );
   }
   OnlineUser() {
-    var user = { username: this.authenticationService.getCurrentUserName(), email: this.authenticationService.getCurrentUserEmail() }
+    var user = {
+      username: this.authenticationService.getCurrentUserName(),
+      email: this.authenticationService.getCurrentUserEmail(),
+    };
     this._hubConnection.invoke("OnConnected", user);
   }
   sendMessage(message: Message) {
-    
     this._hubConnection.invoke("NewMessage", message);
+  }
+  sendMessageToClient(message: Message, recieverClientEmail: string) {
+    this._hubConnection.invoke(
+      "NewMessageToClient",
+      message,
+      recieverClientEmail
+    );
   }
 }

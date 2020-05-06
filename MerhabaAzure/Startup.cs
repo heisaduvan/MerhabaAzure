@@ -56,6 +56,8 @@ namespace MerhabaAzure
             services.AddScoped<ITokenHelper, JwtHelper>();
             services.AddScoped<IUserDal, EfUserDal>();
             services.AddScoped<IUserService, UserManager>();
+            services.AddScoped<IMessageService, MessageManager>();
+            services.AddScoped<IMessageDal, EfMessageDal>();
             var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

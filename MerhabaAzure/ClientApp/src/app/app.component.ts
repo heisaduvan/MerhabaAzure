@@ -10,15 +10,6 @@ export class AppComponent {
   title = "app";
   currentUser: User;
 
-  constructor(
-    private router: Router,
-    private authenticationService: AuthenticationService
-  ) {
-    this.authenticationService.currentUser.subscribe(
-      (x) => (this.currentUser = x)
-    );
-    if (!this.authenticationService.currentUserValue) {
-      this.router.navigate(["/login"]);
-    }
+  constructor( ) {
   }
 }

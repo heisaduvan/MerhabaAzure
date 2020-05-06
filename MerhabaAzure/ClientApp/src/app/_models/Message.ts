@@ -1,8 +1,11 @@
 export class Message {
   Id: number;
-  UserName: string;
+  SenderUserName: string;
+  SenderUserEmail: string;
+  SenderUserId: number;
+  ReceiverUserEmail: string;
+  ReceiverUserId: number;
   MessageContent: string;
   SendDate: Date;
-  HubConnectionId: string;
   MessageReceive: boolean;
 }

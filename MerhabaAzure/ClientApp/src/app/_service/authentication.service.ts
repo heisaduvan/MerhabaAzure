@@ -4,25 +4,34 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { User } from "../_models/User";
 import * as jwt_decode from "jwt-decode";
-import { ConstantPool } from "@angular/compiler";
+import { AlertifyService } from "./alertify.service";
+import { Router } from "@angular/router";
 @Injectable({
   providedIn: "root",
 })
 export class AuthenticationService {
-  private currentUserSubject: BehaviorSubject<User>;
+
   public currentUser: Observable<User>;
-  baseUrl: string = "";
-  public currentUserDecode: any;
-  constructor(private http: HttpClient, @Inject("BASE_URL") baseUrl: string) {
+  private currentUserDecode: any;
+  private currentUserSubject: BehaviorSubject<User>;
+  private baseUrl: string = "";
+
+
+  constructor(
+    private http: HttpClient, @Inject("BASE_URL") baseUrl: string,
+    private alertifyService: AlertifyService,
+    private router: Router) {
     this.currentUserSubject = new BehaviorSubject<User>(
       JSON.parse(localStorage.getItem("currentUser"))
     );
     this.currentUser = this.currentUserSubject.asObservable();
     this.baseUrl = baseUrl;
   }
+
   public get currentUserValue(): User {
     return this.currentUserSubject.value;
   }
+
   login(email: string, password: string) {
     return this.http
       .post<any>(this.baseUrl + "api/auth/login", {
@@ -54,10 +63,10 @@ export class AuthenticationService {
     localStorage.removeItem("currentUserEmail");
     localStorage.removeItem("currentUserRole");
     this.currentUserSubject.next(null);
+    this.alertifyService.warning("See you later, good bye!");
+    this.router.navigate(["/login"]);
   }
-  loggedIn() {
-    return this.currentUserValue;
-  }
+
   getCurrentUserName() {
     return localStorage.getItem("currentUserName");
   }
@@ -67,6 +76,7 @@ export class AuthenticationService {
   getCurrentUserRole() {
     return localStorage.getItem("currentUserRole");
   }
+
   signUp(email: string, password: string, firstname: string, lastname: string) {
     return this.http
       .post<any>(this.baseUrl + "api/auth/register", {

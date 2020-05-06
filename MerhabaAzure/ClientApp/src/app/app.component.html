@@ -1,6 +1,16 @@
-<body>
+<div id="wrapper">
   <app-nav-menu></app-nav-menu>
-  <div class="container">
-    <router-outlet></router-outlet>
+  <div id="content-wrapper" class="d-flex flex-column">
+    <div id="content">
+      <app-topbar></app-topbar>
+      <div class="container-fluid">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+    <app-footer></app-footer>
   </div>
-</body>
+</div>
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+  <i class="fas fa-angle-up"></i>
+</a>

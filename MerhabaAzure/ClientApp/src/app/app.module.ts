@@ -15,6 +15,8 @@ import { AlertifyService } from "src/app/_service/alertify.service";
 import { JwtInterceptor, AuthGuard } from "./_helpers";
 import { UsersComponent } from './users/users.component';
 import { Role } from "./_models/Role";
+import { TopbarComponent } from './topbar/topbar.component';
+import { FooterComponent } from './footer/footer.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,6 +28,8 @@ import { Role } from "./_models/Role";
     LoginComponent,
     RegisterComponent,
     UsersComponent,
+    TopbarComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -33,8 +37,8 @@ import { Role } from "./_models/Role";
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: "", component: HomeComponent, pathMatch: "full" },
-      { path: "counter", component: CounterComponent },
-      { path: "fetch-data", component: FetchDataComponent },
+      { path: "counter", component: CounterComponent, canActivate: [AuthGuard], data: { roles: [Role.Admin, Role.User] } },
+      { path: "fetch-data", component: FetchDataComponent ,canActivate: [AuthGuard], data: { roles: [Role.Admin, Role.User] } },
       { path: "chat", component: ChatComponent, canActivate: [AuthGuard], data: { roles: [Role.Admin, Role.User] } },
       { path: "login", component: LoginComponent },
       { path: "register", component: RegisterComponent },

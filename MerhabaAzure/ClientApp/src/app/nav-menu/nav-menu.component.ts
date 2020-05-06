@@ -1,7 +1,6 @@
 import { Component } from "@angular/core";
-import { Router } from "@angular/router";
 import { AuthenticationService } from "src/app/_service/authentication.service";
-import { AlertifyService } from "../_service/alertify.service";
+import { ChatService } from "../_service/chat.service";
 
 @Component({
   selector: "app-nav-menu",
@@ -13,20 +12,18 @@ export class NavMenuComponent {
 
   constructor(
     private authenticationService: AuthenticationService,
-    private router: Router,
-    private alertifyService: AlertifyService
+    private chatService: ChatService
   ) {}
 
-  get getCurrentUserName() {
-    return this.authenticationService.getCurrentUserName();
-  }
+  
   get isAuthenticated() {
-    return this.authenticationService.loggedIn();
+    return this.authenticationService.currentUserValue;
   }
   LogOut() {
+    this.chatService.closeConnection(
+      this.authenticationService.getCurrentUserName(),
+      this.authenticationService.getCurrentUserEmail());
     this.authenticationService.logout();
-    this.alertifyService.warning("See you later, good bye!");
-    this.router.navigate(["/login"]);
   }
 
   collapse() {

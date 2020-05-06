@@ -22,18 +22,18 @@
             "tsConfig": "src/tsconfig.app.json",
             "assets": ["src/assets"],
             "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/normalize.css/normalize.css",
+              "src/_vendor/css/sb-admin-2.css",
               "node_modules/alertifyjs/build/css/alertify.min.css",
-              "node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css",
-              "node_modules/@fortawesome/fontawesome-free/css/solid.min.css",
-              "node_modules/@fortawesome/fontawesome-free/css/brands.min.css",
-              "src/styles.css"
+              "src/_vendor/fontawesome-free/css/all.min.css"
             ],
             "scripts": [
+              "src/_vendor/jquery/jquery.min.js",
+              "src/_vendor/bootstrap/js/bootstrap.bundle.min.js",
+              "src/_vendor/jquery-easing/jquery.easing.min.js",
               "node_modules/alertifyjs/build/alertify.min.js",
-              "node_modules/@fortawesome/fontawesome-free/js/fontawesome.min.js",
-              "node_modules/@fortawesome/fontawesome-free/js/solid.min.js",
-              "node_modules/@fortawesome/fontawesome-free/js/brands.min.js"
+              "src/_vendor/fontawesome-free/js/all.min.js",
+              "src/_js/sb-admin-2.js"
             ]
           },
           "configurations": {
