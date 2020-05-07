@@ -62,7 +62,6 @@
   });
 
   $(document).on("click", ".contact", function (e) {
-    console.log("Contact clicked!");
     $("div.contact").each(function () {
       $(this).removeClass("border-left-primary");
     });

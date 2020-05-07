@@ -11,6 +11,7 @@ import { User } from "../_models/User";
   providers: [ChatService],
 })
 export class ChatComponent implements OnInit {
+  private loadingImage = require("src/assets/messageloading.svg");
   txtMessage: string = "";
   MessagesArray = new Array<Message>();
   message = new Message();
@@ -53,7 +54,6 @@ export class ChatComponent implements OnInit {
       this.message.SenderUserId = this.myUserId;
       this.message.ReceiverUserEmail = this.selectedUser.email;
       this.message.MessageContent = this.txtMessage;
-      this.message.SendDate = new Date();
       this.message.MessageReceive = false;
 
       if (this.selectedUser === this.everyOne) {
@@ -84,7 +84,27 @@ export class ChatComponent implements OnInit {
     this.chatService.messageReceived.subscribe((message: Message) => {
       this._ngZone.run(() => {
         message = this.checkMessageOwner(message);
-        this.MessagesArray.push(message);
+        message.SendDate = new Date(
+          message.SendDate.toLocaleString("tr-TR", {
+            timeZone: "Turkey/Istanbul",
+          })
+        );
+        if (message.MessageReceive) {
+          if (this.selectedUser === this.everyOne) {
+            if (message.ReceiverUserId === 0) {
+              this.MessagesArray.push(message);
+            }
+          } else {
+            if (
+              message.SenderUserEmail === this.selectedUser.email &&
+              message.ReceiverUserId === this.myUserId
+            ) {
+              this.MessagesArray.push(message);
+            }
+          }
+        } else {
+          this.MessagesArray.push(message);
+        }
       });
     });
 
@@ -107,14 +127,17 @@ export class ChatComponent implements OnInit {
     this.selectedUser = this.everyOne;
   }
   selectUser(user: User = this.everyOne) {
-    this.selectedUser = user;
-    if (this.selectedUser === this.everyOne) {
-      this.chatService.getAllMessage();
-    } else {
-      this.chatService.getAllMessageForClient(
-        this.myUserId,
-        this.selectedUser.email
-      );
+    if (this.selectedUser !== user) {
+      this.selectedUser = user;
+      if (this.selectedUser === this.everyOne) {
+        this.chatService.getAllMessage();
+      } else {
+        this.chatService.getAllMessageForClient(
+          this.myUserId,
+          this.selectedUser.email
+        );
+      }
+      this.MessagesArray = new Array<Message>();
     }
   }
 }

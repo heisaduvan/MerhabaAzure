@@ -71,42 +71,52 @@
         "
       >
         <div class="chat" id="message-content">
-          <div *ngFor="let message of MessagesArray">
-            <div *ngIf="message.MessageReceive">
-              <div class="msg">
-                <div class="img">
-                  <img
-                    src="https://randomuser.me/api/portraits/women/12.jpg"
-                    alt="User Image"
-                  />
-                  <p>{{ message.SendDate | date: "short" }}</p>
+          <div *ngIf="MessagesArray.length > 0">
+            <div *ngFor="let message of MessagesArray">
+              <div *ngIf="message.MessageReceive">
+                <div class="msg">
+                  <div class="img">
+                    <img
+                      src="https://randomuser.me/api/portraits/women/12.jpg"
+                      alt="User Image"
+                    />
+                    <p>{{ message.SendDate | date: "short" }}</p>
+                  </div>
+                  <div class="text">
+                    <p class="message-content-p">
+                      <strong style="display: block;">{{
+                        message.UserName
+                      }}</strong>
+                      {{ message.MessageContent }}
+                    </p>
+                  </div>
                 </div>
-                <div class="text">
-                  <p class="message-content-p">
-                    <strong style="display: block;">{{
-                      message.UserName
-                    }}</strong>
-                    {{ message.MessageContent }}
-                  </p>
+              </div>
+              <div *ngIf="!message.MessageReceive">
+                <div class="outgoing msg">
+                  <div class="img">
+                    <img
+                      src="https://randomuser.me/api/portraits/women/12.jpg"
+                      alt="User Image"
+                    />
+                    <p>{{ message.SendDate | date: "short" }}</p>
+                  </div>
+                  <div class="text">
+                    <p class="message-content-p">
+                      {{ message.MessageContent }}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
-            <div *ngIf="!message.MessageReceive">
-              <div class="outgoing msg">
-                <div class="img">
-                  <img
-                    src="https://randomuser.me/api/portraits/women/12.jpg"
-                    alt="User Image"
-                  />
-                  <p>{{ message.SendDate | date: "short" }}</p>
-                </div>
-                <div class="text">
-                  <p class="message-content-p">
-                    {{ message.MessageContent }}
-                  </p>
-                </div>
-              </div>
-            </div>
+          </div>
+
+          <div
+            class="msg"
+            style="flex-direction: column !important;"
+            *ngIf="MessagesArray.length == 0"
+          >
+            <img [src]="loadingImage" />
           </div>
         </div>
       </div>
