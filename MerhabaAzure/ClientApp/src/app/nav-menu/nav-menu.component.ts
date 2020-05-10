@@ -15,14 +15,14 @@ export class NavMenuComponent {
     private chatService: ChatService
   ) {}
 
-  
   get isAuthenticated() {
     return this.authenticationService.currentUserValue;
   }
   LogOut() {
     this.chatService.closeConnection(
       this.authenticationService.getCurrentUserName(),
-      this.authenticationService.getCurrentUserEmail());
+      this.authenticationService.getCurrentUserEmail()
+    );
     this.authenticationService.logout();
   }
 

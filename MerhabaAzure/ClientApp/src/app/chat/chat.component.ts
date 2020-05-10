@@ -8,7 +8,6 @@ import { User } from "../_models/User";
   selector: "app-chat",
   templateUrl: "./chat.component.html",
   styleUrls: ["./chat.component.css"],
-  providers: [ChatService],
 })
 export class ChatComponent implements OnInit {
   private loadingImage = require("src/assets/messageloading.svg");
@@ -106,6 +105,7 @@ export class ChatComponent implements OnInit {
           this.MessagesArray.push(message);
         }
       });
+      console.log(message);
     });
 
     this.chatService.OnlineUsers.subscribe((data) => {

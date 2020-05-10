@@ -24,6 +24,7 @@ namespace MerhabaAzure.Controllers
         [HttpGet]
         public IActionResult GetUsers()
         {
+            var user = HttpContext.User;
             var result = appUserService.GetList();
             if(result.Success)
             {

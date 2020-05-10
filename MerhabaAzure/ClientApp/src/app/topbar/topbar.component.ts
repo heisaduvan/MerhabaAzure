@@ -9,10 +9,11 @@ import { ChatService } from "../_service/chat.service";
 })
 export class TopbarComponent implements OnInit {
   searchForm: FormGroup;
-  constructor(private formBuilder: FormBuilder,
+  constructor(
+    private formBuilder: FormBuilder,
     private authenticationService: AuthenticationService,
     private chatService: ChatService
-    ) { }
+  ) {}
 
   get getCurrentUserName() {
     return this.authenticationService.getCurrentUserName();
@@ -21,13 +22,12 @@ export class TopbarComponent implements OnInit {
     return this.authenticationService.currentUserValue;
   }
   LogOut() {
-
-      this.chatService.closeConnection(
+    this.chatService.closeConnection(
       this.authenticationService.getCurrentUserName(),
-      this.authenticationService.getCurrentUserEmail());
+      this.authenticationService.getCurrentUserEmail()
+    );
 
-      this.authenticationService.logout();
-    
+    this.authenticationService.logout();
   }
   get f() {
     return this.searchForm.controls;

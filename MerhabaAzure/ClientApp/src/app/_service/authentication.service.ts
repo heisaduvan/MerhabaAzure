@@ -10,17 +10,16 @@ import { Router } from "@angular/router";
   providedIn: "root",
 })
 export class AuthenticationService {
-
   public currentUser: Observable<User>;
   private currentUserDecode: any;
   private currentUserSubject: BehaviorSubject<User>;
   private baseUrl: string = "";
-
-
   constructor(
-    private http: HttpClient, @Inject("BASE_URL") baseUrl: string,
+    private http: HttpClient,
+    @Inject("BASE_URL") baseUrl: string,
     private alertifyService: AlertifyService,
-    private router: Router) {
+    private router: Router
+  ) {
     this.currentUserSubject = new BehaviorSubject<User>(
       JSON.parse(localStorage.getItem("currentUser"))
     );
@@ -31,7 +30,6 @@ export class AuthenticationService {
   public get currentUserValue(): User {
     return this.currentUserSubject.value;
   }
-
   login(email: string, password: string) {
     return this.http
       .post<any>(this.baseUrl + "api/auth/login", {
@@ -44,24 +42,30 @@ export class AuthenticationService {
           localStorage.setItem("currentUser", JSON.stringify(user));
           this.currentUserSubject.next(user);
           this.currentUserDecode = jwt_decode(user.token);
-          localStorage.setItem("currentUserName",
-            this.currentUserDecode["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"]);
+          localStorage.setItem(
+            "currentUserName",
+            this.currentUserDecode[
+              "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
+            ]
+          );
 
-          localStorage.setItem("currentUserEmail", this.currentUserDecode["email"]);
+          localStorage.setItem(
+            "currentUserEmail",
+            this.currentUserDecode["email"]
+          );
 
-          localStorage.setItem("currentUserRole", this.currentUserDecode["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]);
-
-
+          localStorage.setItem(
+            "currentUserRole",
+            this.currentUserDecode[
+              "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+            ]
+          );
           return user;
         })
       );
   }
   logout() {
-    // remove user from local storage to log user out
-    localStorage.removeItem("currentUser");
-    localStorage.removeItem("currentUserName");
-    localStorage.removeItem("currentUserEmail");
-    localStorage.removeItem("currentUserRole");
+    localStorage.clear();
     this.currentUserSubject.next(null);
     this.alertifyService.warning("See you later, good bye!");
     this.router.navigate(["/login"]);

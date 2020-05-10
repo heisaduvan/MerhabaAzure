@@ -1,26 +1,23 @@
-using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using Business.Abstract;
 using Business.Concrete;
-using Business.DependencyResolvers.Autofac;
-using Core.DependencyResolvers;
 using Core.Extensions;
-using Core.Utilities.IoC;
 using Core.Utilities.Security.Encyption;
 using Core.Utilities.Security.Jwt;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using MerhabaAzure.Hubs;
+using MerhabaAzure.Hubs.Abstract;
+using MerhabaAzure.Hubs.Concrete;
+using MerhabaAzure.Hubs.Helper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using System.Threading.Tasks;
 
 namespace MerhabaAzure
 {
@@ -50,6 +47,9 @@ namespace MerhabaAzure
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+            services.AddSession(options =>
+            {
+            });
             services.AddScoped<IAppUserService, AppUserManager>();
             services.AddScoped<IAppUserDal, EfAppUserDal>();
             services.AddScoped<IAuthService, AuthManager>();
@@ -58,6 +58,10 @@ namespace MerhabaAzure
             services.AddScoped<IUserService, UserManager>();
             services.AddScoped<IMessageService, MessageManager>();
             services.AddScoped<IMessageDal, EfMessageDal>();
+            services.AddScoped<IMessageHubMiddleWare, MessageHubMiddleWare>();
+            services.AddScoped<OnlineUserHelper, OnlineUserHelper>();
+
+
             var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -111,16 +115,21 @@ namespace MerhabaAzure
                     pattern: "{controller}/{action=Index}/{id?}");
                 endpoints.MapHub<MessageHub>("/MessageHub");
             });
-
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp";
 
-                if(env.IsDevelopment())
+                if (env.IsDevelopment())
                 {
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+            //app.Use(async (context, next) =>
+            //{
+            //    var hubContext = context.RequestServices.GetRequiredService<IHubContext<MessageHub>>();
+            //});
+
+            
         }
     }
 }

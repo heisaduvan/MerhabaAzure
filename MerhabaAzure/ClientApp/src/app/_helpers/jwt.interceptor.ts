@@ -5,14 +5,17 @@ import {
   HttpEvent,
   HttpInterceptor,
 } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { AuthenticationService } from "../_service/authentication.service";
+import { catchError } from "rxjs/operators";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
   constructor(
     private authenticationService: AuthenticationService,
-    @Inject("BASE_URL") private baseUrl: string
+    @Inject("BASE_URL") private baseUrl: string,
+    private router: Router
   ) {}
 
   intercept(
@@ -31,6 +34,19 @@ export class JwtInterceptor implements HttpInterceptor {
       });
     }
 
-    return next.handle(request);
+    return next.handle(request).pipe(
+      catchError((err, caught) => {
+        if (err.status === 401) {
+          debugger;
+          this.handleAuthError();
+          return of(err);
+        }
+        throw err;
+      })
+    );
+  }
+  private handleAuthError() {
+    this.authenticationService.logout();
+    this.router.navigate(["/login"]);
   }
 }

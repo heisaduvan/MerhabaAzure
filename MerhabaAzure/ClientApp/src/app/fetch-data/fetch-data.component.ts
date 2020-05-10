@@ -13,7 +13,9 @@ export class FetchDataComponent {
       (result) => {
         this.forecasts = result;
       },
-      (error) => console.error(error)
+      (error) => {
+        console.error(error);
+      }
     );
   }
 }
